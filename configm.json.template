@@ -11,7 +11,8 @@
           "clients": [
             {
               "id": "${CLIENTSID}",
-              "level": 0
+              "level": 0,
+              "alterId": 0
             }
           ],
           "decryption": "none"
