@@ -12,7 +12,7 @@
             {
               "id": "${CLIENTSID}",
               "level": 0,
-              "alterId": 0
+              "alterId": ${CLIENTSALTERID}
             }
           ],
           "decryption": "none"
