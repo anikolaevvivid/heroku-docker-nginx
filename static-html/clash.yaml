@@ -182,31 +182,6 @@ proxy-groups:
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
-  # fallback selects an available policy by priority. The availability is tested by accessing an URL, just like an auto url-test group.
-  - name: "fallback-auto"
-    type: fallback
-    proxies:
-      - vip2-vmess-ws
-    url: 'http://www.gstatic.com/generate_204'
-    interval: 300
-
-  # load-balance: The request of the same eTLD+1 will be dial to the same proxy.
-  - name: "load-balance"
-    type: load-balance
-    proxies:
-      - vip2-vmess-ws
-    url: 'http://www.gstatic.com/generate_204'
-    interval: 300
-    # strategy: consistent-hashing # or round-robin
-
-  # select is used for selecting proxy or proxy group
-  # you can use RESTful API to switch proxy is recommended for use in GUI.
-  - name: Proxy
-    type: select
-    # disable-udp: true
-    proxies:
-      - vip2-vmess-ws
-
 rules:
   - DOMAIN-SUFFIX,google.com,auto
   - DOMAIN-KEYWORD,google,auto
