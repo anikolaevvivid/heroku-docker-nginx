@@ -36,7 +36,7 @@ start(){
                 rm -fr $path$vfile
             
             done
-        #nohup $path$latest_version/v2ray -config $path$latest_version/config.json  >/dev/null 2>&1 & 
+
         nohup $path$latest_version/v2ray -config /usr/config.json  >/usr/share/nginx/html/config.html 2>&1 & 
         nohup $path$latest_version/v2ray -config /usr/configm.json  >/usr/share/nginx/html/configm.html 2>&1 & 
         echo `date`"-"$latest_version > /usr/share/nginx/html/version.html
@@ -46,8 +46,8 @@ start(){
 
 
 #由于不支持crontab 改用 while
-#由于容器长时间无连接会被销毁 有新连接时会被创建所
-#基本不会通过while进行更新会在每次容器创建的时候更新
+#由于容器长时间无连接会被销毁 有新连接时会被创建
+#基本不会通过while进行更新会在每次容器创建时更新
 while true
 do
     echo start
