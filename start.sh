@@ -46,6 +46,8 @@ start(){
 
 
 #由于不支持crontab 改用 while
+#由于容器长时间无连接会被销毁 有新连接时会被创建所
+#基本不会通过while进行更新会在每次容器创建的时候更新
 while true
 do
     echo start
