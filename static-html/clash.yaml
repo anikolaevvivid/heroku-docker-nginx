@@ -36,7 +36,7 @@ mode: rule
 
 # Clash by default prints logs to STDOUT
 # info / warning / error / debug / silent
-log-level: error
+log-level: info
 
 # When set to false, resolver won't translate hostnames to IPv6 addresses
 ipv6: ture
@@ -85,8 +85,9 @@ dns:
   # Specify IP addresses only
   default-nameserver:
     - "tls://[2001:4860:4860::8888]:853"
-    - tls://8.8.8.8:853
     - "tls://[2400:3200::1]:853"
+    - tls://8.8.8.8:853
+    - tls://223.5.5.5:853
     - 114.114.114.114
   enhanced-mode: redir-host # or fake-ip
   #fake-ip-range: 198.18.0.1/16 # Fake IP addresses pool CIDR
@@ -103,11 +104,12 @@ dns:
   # All DNS questions are sent directly to the nameserver, without proxies
   # involved. Clash answers the DNS question with the first result gathered.
   nameserver:
-    - tls://8.8.8.8:853
     - "tls://[2001:4860:4860::8888]:853"
-    - tls://1.0.0.1:853
     - "tls://[2606:4700:4700::1001]:853"
     - "tls://[2400:3200::1]:853"
+    - tls://8.8.8.8:853
+    - tls://1.0.0.1:853
+    - tls://223.5.5.5:853
     - 114.114.114.114
   #  - https://1.1.1.1/dns-query # DNS over HTTPS
   #  - dhcp://en0 # dns from dhcp
@@ -117,10 +119,10 @@ dns:
   # The answers from fallback servers are used when the GEOIP country
   # is not `CN`.
   fallback:
-    - tls://8.8.8.8:853
     - "tls://[2001:4860:4860::8888]:853"
-    - tls://1.0.0.1:853
     - "tls://[2606:4700:4700::1001]:853"
+    - tls://8.8.8.8:853
+    - tls://1.0.0.1:853
 
   # If IP addresses resolved with servers in `nameservers` are in the specified
   # subnets below, they are considered invalid and results from `fallback`
@@ -161,7 +163,7 @@ proxies:
   # cipher support auto/aes-128-gcm/chacha20-poly1305/none
   - name: "vmess-ws"
     type: vmess
-    server: 
+    server: 0
     port: 
     uuid: 
     alterId: 
