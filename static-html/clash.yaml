@@ -36,10 +36,10 @@ mode: rule
 
 # Clash by default prints logs to STDOUT
 # info / warning / error / debug / silent
-log-level: info
+log-level: error
 
 # When set to false, resolver won't translate hostnames to IPv6 addresses
-ipv6: false
+ipv6: ture
 
 # RESTful web API listening address
 external-controller: 127.0.0.1:9090
@@ -77,17 +77,19 @@ profile:
 # DNS server settings
 # This section is optional. When not present, the DNS server will be disabled.
 dns:
-  enable: false
-  listen: 0.0.0.0:53
-  # ipv6: false # when the false, response to AAAA questions will be empty
+  enable: true
+  # listen: 0.0.0.0:53
+  ipv6: true
 
   # These nameservers are used to resolve the DNS nameserver hostnames below.
   # Specify IP addresses only
   default-nameserver:
+    - "tls://[2001:4860:4860::8888]:853"
+    - tls://8.8.8.8:853
+    - "tls://[2400:3200::1]:853"
     - 114.114.114.114
-    - 8.8.8.8
   enhanced-mode: redir-host # or fake-ip
-  fake-ip-range: 198.18.0.1/16 # Fake IP addresses pool CIDR
+  #fake-ip-range: 198.18.0.1/16 # Fake IP addresses pool CIDR
   # use-hosts: true # lookup hosts and return IP record
   
   # Hostnames in this list will not be resolved with fake IPs
@@ -101,18 +103,24 @@ dns:
   # All DNS questions are sent directly to the nameserver, without proxies
   # involved. Clash answers the DNS question with the first result gathered.
   nameserver:
-    - 114.114.114.114 # default value
-    - 8.8.8.8 # default value
-    - tls://dns.rubyfish.cn:853 # DNS over TLS
-    - https://1.1.1.1/dns-query # DNS over HTTPS
-    #- dhcp://en0 # dns from dhcp
+    - tls://8.8.8.8:853
+    - "tls://[2001:4860:4860::8888]:853"
+    - tls://1.0.0.1:853
+    - "tls://[2606:4700:4700::1001]:853"
+    - "tls://[2400:3200::1]:853"
+    - 114.114.114.114
+  #  - https://1.1.1.1/dns-query # DNS over HTTPS
+  #  - dhcp://en0 # dns from dhcp
 
   # When `fallback` is present, the DNS server will send concurrent requests
   # to the servers in this section along with servers in `nameservers`.
   # The answers from fallback servers are used when the GEOIP country
   # is not `CN`.
-  # fallback:
-  #   - tcp://1.1.1.1
+  fallback:
+    - tls://8.8.8.8:853
+    - "tls://[2001:4860:4860::8888]:853"
+    - tls://1.0.0.1:853
+    - "tls://[2606:4700:4700::1001]:853"
 
   # If IP addresses resolved with servers in `nameservers` are in the specified
   # subnets below, they are considered invalid and results from `fallback`
@@ -125,20 +133,20 @@ dns:
   # are always used if not match `fallback-filter.ipcidr`.
   #
   # This is a countermeasure against DNS pollution attacks.
-  # fallback-filter:
-  #   geoip: true
-  #   geoip-code: CN
-  #   ipcidr:
-  #     - 240.0.0.0/4
-  #   domain:
-  #     - '+.google.com'
-  #     - '+.facebook.com'
-  #     - '+.youtube.com'
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
   
   # Lookup domains via specific nameservers
   # nameserver-policy:
-  #   'www.baidu.com': '114.114.114.114'
-  #   '+.internal.crop.com': '10.0.0.1'
+  #  'www.baidu.com': '114.114.114.114'
+  #  '+.internal.crop.com': '10.0.0.1'
 
 proxies:
   # Shadowsocks
@@ -151,7 +159,7 @@ proxies:
 
   # vmess
   # cipher support auto/aes-128-gcm/chacha20-poly1305/none
-  - name: "vip2-vmess-ws"
+  - name: "vmess-ws"
     type: vmess
     server: 
     port: 
@@ -176,7 +184,7 @@ proxy-groups:
   - name: "auto"
     type: url-test
     proxies:
-      - vip2-vmess-ws
+      - vmess-ws
     # tolerance: 150
     # lazy: true
     url: 'http://www.gstatic.com/generate_204'
